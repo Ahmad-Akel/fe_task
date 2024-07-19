@@ -1,18 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+import { AppBar, Toolbar, Button } from "@mui/material";
 
-const Home = () => {
+const NavBar = () => {
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/attributes">Attributes</Link>
-        </li>
-      </ul>
-    </nav>
+    <AppBar position="static">
+      <Toolbar>
+        <Button color="inherit" component={RouterLink} to="/">
+          Home
+        </Button>
+        <Button color="inherit" component={RouterLink} to="/attributes">
+          Attributes
+        </Button>
+      </Toolbar>
+    </AppBar>
   );
 };
 
-export default Home;
+export default NavBar;
