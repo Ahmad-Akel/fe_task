@@ -1,5 +1,7 @@
 import { Link as RouterLink } from "react-router-dom";
 import { Typography, Container, Button } from "@mui/material";
+// import "@styles/styles";
+import "../styles/styles.css";
 
 const HomePage = () => {
   return (
@@ -8,7 +10,7 @@ const HomePage = () => {
         <Typography variant="h2" gutterBottom align="center">
           Welcome Home
         </Typography>
-        <div style={{ textAlign: "center", marginTop: "2rem" }}>
+        <div className="home-button-container">
           <Button
             variant="contained"
             color="primary"

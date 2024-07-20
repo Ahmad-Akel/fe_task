@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Typography,
@@ -9,18 +10,14 @@ import {
   List,
   ListItem,
   ListItemText,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   IconButton,
   Box,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import axios from "axios";
 import { Attribute } from "../types/attributes";
 import NotFoundPage from "./NotFoundPage";
+import DeleteDialog from "../components/common/DeleteDialog";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -122,22 +119,11 @@ const AttributeDetailPage = () => {
           </CardContent>
         </Card>
 
-        <Dialog open={openDialog} onClose={handleDialogClose}>
-          <DialogTitle>Confirm Delete</DialogTitle>
-          <DialogContent>
-            <Typography>
-              Are you sure you want to delete this attribute?
-            </Typography>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleDialogClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={handleDelete} color="error">
-              Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <DeleteDialog
+          openDialog={openDialog}
+          handleCloseDialog={handleDialogClose}
+          handleDelete={handleDelete}
+        />
       </Container>
     </div>
   );

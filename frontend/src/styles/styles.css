@@ -1,0 +1,19 @@
+.table-header {
+  font-weight: bold;
+}
+
+.nav-button {
+  font-weight: normal;
+  border-bottom: none;
+  color: white;
+}
+
+.nav-button-active {
+  font-weight: bold;
+  border-bottom: 1px solid white;
+}
+
+.home-button-container {
+  text-align: center;
+  margin-top: 2rem;
+}
