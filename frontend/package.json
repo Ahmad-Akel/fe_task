@@ -49,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash.debounce": "^4.0.9",
     "@types/react-infinite-scroll-component": "^5.0.0"
   }
 }

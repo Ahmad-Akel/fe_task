@@ -82,7 +82,7 @@ const AttributeDetailPage = () => {
 
   return (
     <div>
-      <Button color="inherit" onClick={() => navigate("/attributes")}>
+      <Button color="primary" onClick={() => navigate("/attributes")}>
         <ArrowBackIcon />
         BACK
       </Button>

@@ -12,6 +12,7 @@ import {
   Button,
   TableSortLabel,
 } from "@mui/material";
+import "./styles.css";
 import NotFoundPage from "../pages/NotFoundPage";
 
 interface AttributesListProps {
@@ -37,7 +38,7 @@ const AttributesList = ({
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>
+            <TableCell className="table-header">
               <TableSortLabel
                 active={sortBy === "name"}
                 direction={sortDir}
@@ -46,8 +47,8 @@ const AttributesList = ({
                 Name
               </TableSortLabel>
             </TableCell>
-            <TableCell>Labels</TableCell>
-            <TableCell>
+            <TableCell className="table-header">Labels</TableCell>
+            <TableCell className="table-header">
               <TableSortLabel
                 active={sortBy === "createdAt"}
                 direction={sortDir}
@@ -56,7 +57,7 @@ const AttributesList = ({
                 Created At
               </TableSortLabel>
             </TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell className="table-header">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
