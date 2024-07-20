@@ -10,22 +10,52 @@ import {
   TableRow,
   Paper,
   Button,
+  TableSortLabel,
 } from "@mui/material";
+import NotFoundPage from "../pages/NotFoundPage";
 
 interface AttributesListProps {
   attributes: Attribute[];
-  onDelete: (attribute: Attribute) => void; // Function to handle delete
+  onDelete: (attribute: Attribute) => void;
+  sortBy: string;
+  sortDir: "asc" | "desc";
+  onSort: (property: string) => void;
 }
 
-const AttributesList = ({ attributes, onDelete }: AttributesListProps) => {
+const AttributesList = ({
+  attributes,
+  onDelete,
+  sortBy,
+  sortDir,
+  onSort,
+}: AttributesListProps) => {
+  if (!attributes) {
+    return <NotFoundPage />;
+  }
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Name</TableCell>
+            <TableCell>
+              <TableSortLabel
+                active={sortBy === "name"}
+                direction={sortDir}
+                onClick={() => onSort("name")}
+              >
+                Name
+              </TableSortLabel>
+            </TableCell>
             <TableCell>Labels</TableCell>
-            <TableCell>Created At</TableCell>
+            <TableCell>
+              <TableSortLabel
+                active={sortBy === "createdAt"}
+                direction={sortDir}
+                onClick={() => onSort("createdAt")}
+              >
+                Created At
+              </TableSortLabel>
+            </TableCell>
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>

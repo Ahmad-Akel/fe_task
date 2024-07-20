@@ -23,6 +23,9 @@ const AttributesListPage = () => {
   );
   const [openDialog, setOpenDialog] = useState<boolean>(false);
 
+  const [sortBy, setSortBy] = useState<string>("name");
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+
   const fetchAttributes = async () => {
     if (loading) return;
     setLoading(true);
@@ -34,13 +37,17 @@ const AttributesListPage = () => {
           params: {
             offset,
             limit: 10,
+            sortBy,
+            sortDir,
           },
         }
       );
 
       const newAttributes = response.data.data;
       setAttributes((prevAttributes) => {
-        const allAttributes = [...prevAttributes, ...newAttributes];
+        const allAttributes =
+          offset === 0 ? newAttributes : [...prevAttributes, ...newAttributes];
+
         // Ensure unique attributes by id
         const uniqueAttributes = allAttributes.filter(
           (attr, index, self) =>
@@ -52,6 +59,7 @@ const AttributesListPage = () => {
       setOffset((prevOffset) => prevOffset + 10);
       setLoading(false);
     } catch (err) {
+      console.error("Error fetching attributes:", err);
       setError("Failed to fetch attributes");
       setLoading(false);
     }
@@ -81,9 +89,17 @@ const AttributesListPage = () => {
     }
   };
 
+  const handleSort = (property: string) => {
+    const isAscending = sortBy === property && sortDir === "asc";
+    setSortBy(property);
+    setSortDir(isAscending ? "desc" : "asc");
+    setOffset(0);
+    setAttributes([]);
+  };
+
   useEffect(() => {
     fetchAttributes();
-  }, []);
+  }, [sortBy, sortDir]);
 
   if (loading && attributes.length === 0) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
@@ -97,7 +113,13 @@ const AttributesListPage = () => {
         loader={<p>Loading more attributes...</p>}
         endMessage={<p>No more attributes to load</p>}
       >
-        <AttributesList attributes={attributes} onDelete={handleOpenDialog} />
+        <AttributesList
+          attributes={attributes}
+          onDelete={handleOpenDialog}
+          sortBy={sortBy}
+          sortDir={sortDir}
+          onSort={handleSort}
+        />
       </InfiniteScroll>
 
       <Dialog open={openDialog} onClose={handleCloseDialog}>

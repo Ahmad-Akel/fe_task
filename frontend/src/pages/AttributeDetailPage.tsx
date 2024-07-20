@@ -20,6 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 import { Attribute } from "../types/attributes";
+import NotFoundPage from "./NotFoundPage";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -30,6 +31,7 @@ const AttributeDetailPage = () => {
   const [openDialog, setOpenDialog] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [notFound, setNotFound] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchAttribute = async () => {
@@ -40,7 +42,15 @@ const AttributeDetailPage = () => {
         setAttribute(response.data.data);
         setLoading(false);
       } catch (err) {
-        setError("Failed to fetch attribute details");
+        if (axios.isAxiosError(err)) {
+          if (err.response && err.response.status === 404) {
+            setNotFound(true);
+          } else {
+            setError("Failed to fetch attribute details");
+          }
+        } else {
+          setError("An unexpected error occurred");
+        }
         setLoading(false);
       }
     };
@@ -53,7 +63,11 @@ const AttributeDetailPage = () => {
       await axios.delete(`${API_BASE_URL}/attributes/${id}`);
       navigate("/attributes");
     } catch (err) {
-      setError("Failed to delete attribute");
+      if (axios.isAxiosError(err)) {
+        setError("Failed to delete attribute");
+      } else {
+        setError("An unexpected error occurred");
+      }
     } finally {
       setOpenDialog(false);
     }
@@ -63,6 +77,7 @@ const AttributeDetailPage = () => {
   const handleDialogClose = () => setOpenDialog(false);
 
   if (loading) return <p>Loading...</p>;
+  if (notFound) return <NotFoundPage />;
   if (error) return <p>{error}</p>;
 
   return (
